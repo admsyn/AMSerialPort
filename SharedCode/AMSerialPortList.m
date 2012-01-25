@@ -276,4 +276,17 @@ static void AMSerialPortWasRemovedNotification(void *refcon, io_iterator_t itera
     return result;
 }
 
+- (NSArray *)serialPortsOfType:(NSString *)serialTypeKey 
+                    withPrefix:(NSString *)prefix
+{
+  __block NSMutableArray *result = [NSMutableArray array];
+  [portList enumerateObjectsUsingBlock:^(id port, NSUInteger idx, BOOL *stop) {
+    if (![[port type] isEqualToString:serialTypeKey])
+      return;
+    if([[port name] hasPrefix:prefix])
+      [result addObject:port];
+  }];
+  return result;
+}
+
 @end
